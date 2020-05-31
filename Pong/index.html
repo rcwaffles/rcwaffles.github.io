@@ -2,16 +2,25 @@
   <html lang="en">
   <head>
     <meta charset="utf-8">
+	<link rel='icon' href='favicon.ico' type='image/x-icon'/>
     <title>Pong</title>
     
     <!-- include an external style sheet -->
     <link rel="stylesheet" href="Pong.css">  
-    
-    <!-- include an external JavaScript file -->
-    <script src="Pong.js"></script>
+
   </head>
   
   <body>
+  
+	<div id="controlpanel">
+		<div onclick="startGame()" id="start" class="controls">
+		Start Game</div>
+		<div onclick="stopGame()" id="stop" class="controls">Stop Game</div>
+		<div onclick="pauseGame()" id="pause" class="controls">Pause Game</div>
+		<div onclick="resumeGame()" id="resume" class="controls">Resume Game</div>
+		<div onclick="showControls()" id="howTo" class="controls">How to Play</div>
+		</div>
+		
   
 	<div id="header">
 		<h1 id="title">Pong</h1>
@@ -26,11 +35,26 @@
 		<div id="ball">
 		</div>
 		
+	
+		
 		<div id="paddle2" class="paddle">
 		</div>
-		
+			<div id="lightbox" class="hidden"></div>
+	
+	<div id="positionMessage">
+		<div id="boundaryMessage" class="hidden">
+			<img id="x" src="images/x.png" alt="close" onclick="continueGame()">
+			<h1 class="titletext" id="message">g</h1>
+			<p class="titletext" id="message2"></p>
+			
+		</div>
 	</div>
+	</div>
+		
+	
    
+   <!-- include an external JavaScript file -->
+    <script src="Pong.js"></script>
   </body>
   
 </html>
