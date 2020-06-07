@@ -22,5 +22,104 @@ body {
 }
 
 .rider {
-	background-image:url("images/rider.png"):
+	background-image:url("images/rider.png");
 }
+.tree {
+	background-image:url("images/tree.png");
+}
+.flag {
+	background-image:url("images/rider.png");
+}
+.sentry {
+	background-image:url("images/sentry.png");
+}
+
+.fence {
+	background-image:url("images/fenceup.png");
+}
+
+.rock {
+	background-image:url("images/rock.png");
+}
+
+.riderup {
+	background-image:url("images/Riderup.png");
+}
+
+.riderdown {
+	background-image:url("images/Riderdown.png");
+}
+
+.riderleft {
+	background-image:url("images/Riderleft.png");
+}
+
+.riderright {
+	background-image:url("images/Riderright.png");
+}
+
+.enemyup {
+	background-image:url("images/enemyup.png");
+}
+
+.enemydown {
+	background-image:url("images/enemydown.png");
+}
+
+.enemyright {
+	background-image:url("images/enemyright.png");
+}
+
+.enemyleft {
+	background-image:url("images/enemyleft.png");
+}
+
+.fenceside {
+	background-image:url("images/fenceside.png");
+}
+
+.jumpup{
+	background-image:url("images/jumpup.png");
+}
+
+.jumpdown {
+	background-image:url("images/jumpdown.png");
+}
+
+.jumpright {
+	background-image:url("images/jumpright.png");
+}
+
+.jumpleft {
+	background-image:url("images/jumpleft.png");
+}
+
+.horseright {
+	background-image:url("images/Horseright.png");
+}
+
+.horseleft {
+	background-image:url("images/Horseleft.png");
+}
+
+.horseup {
+	background-image:url("images/Horseup.png");
+}
+
+.horsedown {
+	background-image:url("images/Horsedown.png");
+}
+
+.bridge { 
+	background-color:#800020 !important;
+}
+
+.water {
+	background-image:url("images/water.png");
+}
+
+
+
+
+
+
