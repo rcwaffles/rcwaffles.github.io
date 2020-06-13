@@ -14,11 +14,11 @@ const levels = [
 	"", "water", "horseup", "",""],
 	
 	// level 2
-	["flag", "rock", "", "", "", 
-	"fenceside", "rock", "", "", "rider",
-	"", "tree", "animate", "animate", "animate", 
-	"", "water", "", "", "",
-	"", "fence", "", "horseup",""],
+	["tree", "tree", "flag", "tree", "tree", 
+	"animate", "animate", "animate", "animate", "animate",
+	"water", "bridge", "water", "water", "water", 
+	"", "", "", "", "",
+	"rider", "rock", "tree", "tree","horseup"],
 	
 	]; // end of levels
 	
@@ -43,23 +43,23 @@ document.addEventListener('keydown', function(e) {
 		switch (e.keycode) {
 			case 37: // left arrow
 				if(currentLocationOfHorse % widthOfBoard != 0){
-					tryToMove("horseleft");
+					tryToMove("left");
 				}
 				break;
 			case 38: //up arrow
 				if(currentLocationOfHorse - widthOfBoard >= 0){
-					tryToMove("horseup");
+					tryToMove("up");
 				}
 				break;
 			case 39: //right arrow
 				if(currentLocationOfHorse % widthOfBoard < widthOfBoard - 1){
-					tryToMove("horseright");
+					tryToMove("right");
 
 				}
 				break;
 			case 40: //down arrow
 				if(currentLocationOfHorse + widthOfBoard < (widthOfBoard * widthOfBoard)){
-					tryToMove("horsedown");
+					tryToMove("down");
 				}
 				break;
 		}//switch
@@ -67,23 +67,23 @@ document.addEventListener('keydown', function(e) {
 		switch (e.which) {
 			case 37: // left arrow
 				if(currentLocationOfHorse % widthOfBoard != 0){
-					tryToMove("horseleft");
+					tryToMove("left");
 				}
 				break;
 			case 38: //up arrow
 				if(currentLocationOfHorse - widthOfBoard >= 0){
-					tryToMove("horseup");
+					tryToMove("up");
 				}
 				break;
 			case 39: //right arrow
 				if(currentLocationOfHorse % widthOfBoard < widthOfBoard - 1){
-					tryToMove("horseright");
+					tryToMove("right");
 
 				}
 				break;
 			case 40: //down arrow
 				if(currentLocationOfHorse + widthOfBoard < (widthOfBoard * widthOfBoard)){
-					tryToMove("horsedown");
+					tryToMove("down");
 				}
 				break;
 		}//switch
@@ -94,7 +94,7 @@ document.addEventListener('keydown', function(e) {
 function tryToMove(direction){
 	if(!gameOver){
 
-		//location beofre move
+		//location before move
 		let oldLocation = currentLocationOfHorse;
 
 		//class of location before move
@@ -109,16 +109,16 @@ function tryToMove(direction){
 		let newClass = ""; //new class to switch to if move successful
 
 		switch(direction){
-			case "horseleft":
+			case "left":
 				nextLocation = currentLocationOfHorse - 1;
 				break;
-			case "horseright":
+			case "right":
 				nextLocation = currentLocationOfHorse + 1;
 				break;
-			case "horseup":
+			case "up":
 	 			nextLocation = currentLocationOfHorse - widthOfBoard;
 	 			break;
-			case "horsedown":
+			case "down":
 				nextLocation = currentLocationOfHorse + widthOfBoard;
 				break;
 		}//switch
@@ -133,10 +133,10 @@ function tryToMove(direction){
 
 		//if there is a fence, move two spaces with animation
 		if(nextClass.includes("fence")){
-			if((direction == "horseup" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse - (2 * widthOfBoard)].className)) ||
-			   (direction == "horsedown" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse + (2 * widthOfBoard)].className)) ||
-			   (direction == "horseleft" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse - 2].className)) ||
-			   (direction == "horseright" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse + 2].className))){
+			if((direction == "up" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse - (2 * widthOfBoard)].className)) ||
+			   (direction == "down" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse + (2 * widthOfBoard)].className)) ||
+			   (direction == "left" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse - 2].className)) ||
+			   (direction == "right" && !noPassObstacles.includes(gridBoxes[currentLocationOfHorse + 2].className))){
 
 				//rider must be on to jump
 				if(riderOn){
@@ -144,19 +144,19 @@ function tryToMove(direction){
 					oldClassName = gridBoxes[nextLocation].className;
 
 					//set values according to direction
-					if(direction == "horseleft"){
+					if(direction == "left"){
 						nextClass = "jumpleft";
 						nextClass2 = "riderleft";
 						nextLocation2 = nextLocation - 1;
-					} else if (direction == "horseright"){
+					} else if (direction == "right"){
 						nextClass = "jumpright";
 						nextClass2 = "riderright"
 						nextLocation2 = nextLocation + 1;
-					} else if (direction == "horseup"){
+					} else if (direction == "up"){
 						nextClass = "jumpup";
 						nextClass2 = "riderup"
 						nextLocation2 = nextLocation - widthOfBoard;
-					} else if (direction == "horsedown"){
+					} else if (direction == "down"){
 						nextClass = "jumpdown";
 						nextClass2 = "riderdown"
 						nextLocation2 = nextLocation + widthOfBoard;
@@ -200,9 +200,9 @@ function tryToMove(direction){
 		}//else
 
 		//build name of new class
-		newClass = direction;
-		newClass += (riderOn) ? "rider" : "";
-
+		newClass = (riderOn) ? "rider" : "horse";
+		newClass += direction;
+		console.log(direction)
 		
 		if(gridBoxes[nextLocation].classList.contains("bridge")){
 			newClass += " bridge";
@@ -336,7 +336,7 @@ function animateEnemy(boxes, index, direction){
 				index--;
 			}//else
 		} else if(direction == "down"){
-			if(index == boxes.legnth - 1){
+			if(index == boxes.length - 1){
 				index--;
 				direction = "up"
 			}else{
@@ -349,3 +349,4 @@ function animateEnemy(boxes, index, direction){
 		}, 750);
 	};
 }//animate Enemy
+
