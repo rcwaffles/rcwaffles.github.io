@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 	<div id="gameBoard">
 		<div id="data"></div>
 		<div></div>
@@ -38,10 +39,25 @@
 		<div></div>
 		<div></div>
 	</div>
+	
+	<div id="timer"></div>
 
-	<div class="message" id="lose">You Lose</div>
+	<div class="message" id="lose" onclick="playAgain()">You Lose... click to continue</div>
 	<div class="message" id="levelup">Next Level...</div>
 	<div class="message" id="win">You Win</div>
+
+<div id="lightbox" class="hidden"></div>
+	
+	<div id="positionMessage">
+		<div id="boundaryMessage" class="hidden">
+			<img id="x" src="images/x.png" alt="close" onclick="removeButton()">
+			<h1 class="titletext" id="message">g</h1>
+			<p class="titletext" id="message2"></p>
+			<button id="howToPlay" onclick="instructions()">Click for Instructions!</button>
+			
+		</div>
+	</div>
+
 
 	<script src="game.js"></script>
 </body>

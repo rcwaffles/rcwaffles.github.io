@@ -33,12 +33,27 @@ var currentAnimation; //allows 1 animation per level
 var widthOfBoard = Math.floor((document.getElementById("gameBoard").offsetWidth) / (document.getElementById("data").offsetWidth));
 var gameOver = false;
 
+var timer;
+var seconds = 0;
+var timerleft = 0;
+
+var startTimer = false;
+var bridgeTimer;
+var timeBridge = 0;	
+onBridge();
+
+
+
 //start game
 window.addEventListener("load", function() {
 	loadLevel();
 });
 
 document.addEventListener('keydown', function(e) {
+	if(!startTimer) {
+		startTimer = true;
+		myTimer();
+	}
 	if(e.keycode == 37 || e.keycode == 38 || e.keycode == 39 || e.keycode == 40){
 		switch (e.keycode) {
 			case 37: // left arrow
@@ -208,13 +223,17 @@ function tryToMove(direction){
 			newClass += " bridge";
 		}//if
 
+		
+		
 		//move 1 space
 		currentLocationOfHorse = nextLocation;
 		gridBoxes[currentLocationOfHorse].className = newClass;
-
+		
+		
+		
 		// if it is an enemy
 		if(nextClass.includes("enemy")){
-			document.getElementById("lose").style.display = "Block";
+			document.getElementById("lose").style.display = "block";
 			gameOver = true;
 			return;
 		}
@@ -222,6 +241,7 @@ function tryToMove(direction){
 		//move up to next level if needed
 		levelUp(nextClass);
 	}//if
+
 
 }//tryToMove
 
@@ -236,20 +256,32 @@ function levelUp(nextClass){
 			setTimeout (function(){
 				document.getElementById("levelup").style.display = "none";
 				currentLevel++;
+				startTimer = false;
 				loadLevel();
 			}, 1000);
 		}else{
-			document.getElementById("win").style.display = "block";
 			gameOver = true;
+			showLightBox("You completed the training course!", "");
 		}//else			
 	}//if
 }//levelUp
 
 
-function loadLevel(){
+function loadLevel (){
 	let levelMap = levels[currentLevel];
 	let animateBoxes;
 	riderOn = false;
+	seconds = 0;
+	
+	if(currentLevel == 0) {
+		showLightBox("Meet hazel!", "shes a 2 year old mare, and her equestrian is teaching her to jump fences all on her own! Hazel's a special breed of horse and apples give her EXTREME jumping power. Eat the apple then jump the fence! Once Hazel reaches the flag, her trainer puts her through yet ANOTHER obstacle course. ");
+	}
+	else if(currentLevel == 1) {
+		showLightBox("Good girl hazel!!!!", "Ok, now we have to get you over your fear of water! Trot over that bridge, and DONT stand too long. All that jumping must have tired you out! Go munch on another apple so you have the strength to hop over more fences!!!");
+	}
+	else if(currentLevel == 2) {
+		showLightBox("You're so close Hazel!", "You've been such a good girl, why don't you enjoy another delicious apple! Your training will be complete once you eat the apple and reach the flag.");
+	}
 
 	//load board
 	for(i = 0; i < gridBoxes.length; i++) {
@@ -282,12 +314,13 @@ function animateEnemy(boxes, index, direction){
 			boxes[index].classList.add("enemydown");
 		}//else
 
-		//if player is there they loose		
+		//if player is there they lose		
 		if(((boxes[index].className.includes("riderleft") || boxes[index].className.includes("riderright") || boxes[index].className.includes("riderup") || boxes[index].className.includes("riderdown")) || 
 			(boxes[index].className.includes("left ") || boxes[index].className.includes("right ") || boxes[index].className.includes("up ") || boxes[index].className.includes("down "))) && 
 			(boxes[index].className.includes("enemy"))){
-			document.getElementById("lose").style.display = "Block";
+			document.getElementById("lose").style.display = "block";
 			gameOver = true;
+			return;
 
 			//remove images from other boxes
 			for(i = 0; i < boxes.length; i++){
@@ -349,4 +382,97 @@ function animateEnemy(boxes, index, direction){
 		}, 750);
 	};
 }//animate Enemy
+
+//object constructor to play sounds
+//https://www.w3schools.com/graphics/game_sound.asp
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+//lightbox CODE
+//change the visibility of ID
+function changeVisibility(divID) {
+	var element = document.getElementById(divID);
+	
+	//if element exists, it is considered true
+	if (element) {
+		element.className = (element.className == 'hidden') ? 'unhidden' : 'hidden';
+	}//if
+}//changeVisibility
+
+function removeButton() {
+	document.getElementById("howToPlay").style.display = "none";
+	showLightBox("","");
+}
+
+// display in lightbox
+function showLightBox(message, message2) {
+	
+	//set messages
+	document.getElementById("message").innerHTML = message;
+	document.getElementById("message2").innerHTML = message2;
+
+	// show lightbox
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");
+	
+}//showlightbox
+
+function myTimer() {
+	if (!startTimer) {
+		return;
+	}
+	
+	if (!gameOver) {
+	seconds++;
+	timerleft = 15 - seconds;
+	
+	document.getElementById("timer").innerHTML = "time left: " + timerleft;
+	console.log(seconds);
+	}
+	if(timerleft < 1) {
+	document.getElementById("lose").style.display = "block";
+	seconds = 0;
+	gameOver = true;	
+	}
+	timer = setTimeout(function(e) {
+		myTimer();
+	},1000)
+}
+
+function playAgain() {
+	location.reload();
+}
+
+function onBridge() {
+	
+if(gridBoxes[currentLocationOfHorse].classList.contains("bridge")) {
+	timeBridge++;	
+}else {
+	timeBridge = 0;
+}
+if (timeBridge == 2) {
+	document.getElementById("lose").style.display = "block";
+	gameOver = true;	
+}
+bridgeTimer = setTimeout(function(e) {
+	onBridge();
+},1000)
+}
+
+function instructions() {
+	document.getElementById("message").innerHTML = "Instructions";
+	document.getElementById("message2").innerHTML = "Move with arrow keys and make your way to the flag. You can only pass fences after eating the magical apple. Don't stand on the bridge too long!!! ^_^. Hazels trainer is very strict, and if she doesn't complete the course before the timer reaches zero, SHE FAILS!";
+	document.getElementById("howToPlay").style.display = "none";
+}
 
